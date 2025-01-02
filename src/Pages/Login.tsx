@@ -3,7 +3,7 @@ import { LuEye, LuEyeOff } from "react-icons/lu";
 
 // type Props = {};
 
-const Home = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [password, setPassword] = useState("");
@@ -24,11 +24,7 @@ const Home = () => {
   return (
     <div className=" flex flex-col h-screen items-start  ">
       <div className="flex flex-1 w-full  gap-4 mb-4 flex-col items-center justify-center">
-        <img
-          src="https://www.simbrella.com/site/templates/img/logo_colored.svg"
-          alt=""
-          className="w-[12rem] mt-4"
-        />
+      
         <div className="flex flex-col mt-10 gap-4 rounded-lg border border-[#3438a1] bg-[#fff]   sh p-8 pb-10 sm:p-10 sm:pb-12 w-11/12 max-w-md">
           <p className="text-xl md:text-3xl text-center text-[#2D3192] font-bold font-display">
             Login
@@ -88,4 +84,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Login;
