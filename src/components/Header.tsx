@@ -1,11 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 import { FaAlignJustify } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const Header = ({ setIsOpen }: Props) => {
+  const { pathname } = useLocation();
+  // const isActive = href === "/dashboard" ? pathname === href : pathname.startsWith(href);
   return (
     <div>
       <div
@@ -19,7 +22,14 @@ const Header = ({ setIsOpen }: Props) => {
         </div>
 
         <div className=" flex gap-1.5 lg:gap-3 justify-between items-center w-full">
-          <p className="text-3xl font-semibold">Home</p>
+          <p className="text-3xl font-semibold">
+            {" "}
+            {pathname === "/dashboard"
+              ? "Home"
+              : pathname.startsWith("/dashboard/loans")
+              ? "Loans"
+              : ""}
+          </p>
           <div className="flex items-center gap-2">
             <div className="flex flex-col">
               <p className="text-xs text-[#6c6969]">Hello, Good afternoon</p>

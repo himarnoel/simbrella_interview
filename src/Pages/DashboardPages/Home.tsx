@@ -6,7 +6,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  Legend,
+
   CartesianGrid,
 } from "recharts";
 import { transactionHistory } from "../../Utils/data";
@@ -103,7 +103,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {transactionHistory.map((transaction, index) => (
+                {transactionHistory.map((transaction) => (
                   <tr
                     key={transaction.id}
                     className="border-b cursor-pointer border-b-grey-50 hover:bg-gray-50"

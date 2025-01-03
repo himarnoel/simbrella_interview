@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import { BiMoney } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import { useFormik } from "formik";
@@ -10,11 +10,7 @@ type Props = {
 };
 
 const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
-  const [selectedCode, setSelectedCode] = useState<string>("NG +234");
 
-  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCode(e.target.value);
-  };
 
   const formik = useFormik({
     initialValues: {

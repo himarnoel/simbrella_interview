@@ -1,9 +1,9 @@
 import { BiChevronLeft } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 const LoanDetails = () => {
-  const { loanId } = useParams();
+  // const { loanId } = useParams();
   const loan = {
     id: 1,
     loanId: "002572",

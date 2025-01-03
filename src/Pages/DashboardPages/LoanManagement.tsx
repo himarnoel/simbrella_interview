@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 import { BiPlus, BiSearch } from "react-icons/bi";
 import RequestLoan from "../../components/RequestLoan";

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
-import { BiPlus, BiSearch } from "react-icons/bi";
+import {  BiSearch } from "react-icons/bi";
 // import RequestTransaction from "../../components/RequestTransaction";
 import { Link } from "react-router-dom";
 import { transactionHistory } from "../../Utils/data";
@@ -9,8 +9,7 @@ import { transactionHistory } from "../../Utils/data";
 
 const TransactionHistory = () => {
   const [query, setQuery] = useState<string>("");
-  const [isOpenTransactionRequest, setIsOpenTransactionRequest] =
-    useState<boolean>(false);
+  
   
 
   const filteredTransactions = transactionHistory.filter((transaction) => {
