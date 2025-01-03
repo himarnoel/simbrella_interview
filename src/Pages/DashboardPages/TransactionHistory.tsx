@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BiSearch } from "react-icons/bi";
-import { Link } from "react-router-dom";
+
 import {
   formatDateToDDMMYYYY,
   transactionHistory,
@@ -11,7 +11,7 @@ import { useGetTransactionQuery } from "../../services/transactionAPI";
 import { ClipLoader } from "react-spinners";
 
 const TransactionHistory = () => {
-  const { data, error, isLoading } = useGetTransactionQuery();
+  const { data,  isLoading } = useGetTransactionQuery();
   const [query, setQuery] = useState<string>("");
   const [transactions, setTransactions] =
     useState<TransactionInterface[]>(transactionHistory);

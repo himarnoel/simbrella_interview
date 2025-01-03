@@ -14,7 +14,7 @@ type Props = {
 };
 
 const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
-  const [createLoan, { isLoading, isSuccess, isError, error }] =
+  const [createLoan, { isLoading}] =
     useCreateLoanMutation();
 
   const formik = useFormik({

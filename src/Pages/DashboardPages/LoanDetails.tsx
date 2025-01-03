@@ -8,7 +8,7 @@ import { useGetLoanByIdQuery } from "../../services/loansAPI";
 
 const LoanDetails = () => {
   const { loanId } = useParams();
-  const { data: loan, error, isLoading } = useGetLoanByIdQuery(loanId ?? "");
+  const { data: loan,  isLoading } = useGetLoanByIdQuery(loanId ?? "");
 
   if (isLoading) {
     return (

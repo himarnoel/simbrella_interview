@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { LoanInterface, TransactionInterface } from "../Utils/data";
+import { LoanInterface } from "../Utils/data";
 
 // console.log(apiUrl); //
 
@@ -25,6 +25,8 @@ export const api = createApi({
       // onSuccess will trigger the GET query after the POST request is done
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
+          console.log("arf",arg);
+          
           await queryFulfilled;
           // Invalidate the getLoans query to trigger a re-fetch
           dispatch(api.util.invalidateTags(["Loan"]));
