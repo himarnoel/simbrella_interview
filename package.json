@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
@@ -20,6 +21,7 @@
     "react-spinners": "^0.15.0",
     "react-toastify": "^11.0.2",
     "recharts": "^2.15.0",
+    "text-encoding": "^0.7.0",
     "typeface-inter": "^3.18.1",
     "uuid": "^11.0.3",
     "yup": "^1.6.1"
@@ -27,21 +29,28 @@
   "devDependencies": {
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.17.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.14",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "babel-jest": "^29.7.0",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
