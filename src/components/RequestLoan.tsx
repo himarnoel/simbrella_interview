@@ -19,8 +19,8 @@ const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
 
   const formik = useFormik({
     initialValues: {
-      amount: 0,
-      tenure: 0,
+      amount: "",
+      tenure: "",
       purpose: "",
     },
     validationSchema: Yup.object({
@@ -37,8 +37,8 @@ const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
       const newUUID = uuidv4();
       console.log("values", values);
       const newValues: LoanInterface = {
-        amount: values.amount,
-        purpose: values.purpose,
+        amount: Number(values.amount),
+        purpose:values.purpose,
         tenure: `${values.tenure} months`,
         netPay: 5000,
         balance: 2000,
