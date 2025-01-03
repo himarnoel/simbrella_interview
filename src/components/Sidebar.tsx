@@ -5,6 +5,7 @@ import IconLink from "./IconLink";
 import { MdDashboard } from "react-icons/md";
 import { FaExchangeAlt, FaMoneyCheckAlt } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 type Props = {
   isOpen: boolean;
@@ -48,11 +49,14 @@ const Sidebar = ({ isOpen, setIsOpen }: Props) => {
               />
             </div>
           </div>
-          <IconLink
+          {/* <IconLink
             href="/ds"
             IconComponent={BiLogOut} // Another example with FaHome
             label="Logout"
-          />
+          /> */}
+          <Link to={"/"}   className="h-20 text-[#575656] cursor-pointer gap-4 flex items-center px-8">
+          <BiLogOut /> <span>Logout</span>
+          </Link>
         </div>
       </div>
     </div>

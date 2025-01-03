@@ -3,6 +3,10 @@ import { BiMoney } from "react-icons/bi";
 import { CgClose } from "react-icons/cg";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useCreateLoanMutation } from "../services/loansAPI";
+import { LoanInterface } from "../Utils/data";
+import { v4 as uuidv4 } from "uuid";
+import { ClipLoader } from "react-spinners";
 
 type Props = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,24 +14,41 @@ type Props = {
 };
 
 const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
-
+  const [createLoan, { isLoading, isSuccess, isError, error }] =
+    useCreateLoanMutation();
 
   const formik = useFormik({
     initialValues: {
-      amount: "",
-      tenure: "",
+      amount: 0,
+      tenure: 0,
       purpose: "",
     },
     validationSchema: Yup.object({
       amount: Yup.number()
         .required("Amount is required")
         .positive("Amount must be positive"),
-      tenure: Yup.string().required("Tenure is required"),
+      tenure: Yup.number()
+        .required("Tenure is required")
+        .min(1, "Tenure must be at least 1 month")
+        .max(12, "Tenure cannot exceed 12 months"),
       purpose: Yup.string().required("Purpose is required"),
     }),
     onSubmit: (values) => {
+      const newUUID = uuidv4();
       console.log("values", values);
-
+      const newValues: LoanInterface = {
+        amount: values.amount,
+        purpose: values.purpose,
+        tenure: `${values.tenure} months`,
+        netPay: 5000,
+        balance: 2000,
+        loanId: newUUID,
+        status: "Submitted",
+      };
+      try {
+        createLoan(newValues);
+      } catch (e) {}
+      setIsOpen(false);
       formik.resetForm();
     },
   });
@@ -35,7 +56,10 @@ const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
   return (
     <div>
       <div
-        onClick={() => setIsOpen(false)}
+        onClick={() => {
+          setIsOpen(false);
+          formik.resetForm();
+        }}
         className={`pt-[2%] top-0 left-0 z-50 h-screen w-full bg-black/20 fixed overflow   ${
           isOpen ? "visible" : "invisible"
         } `}
@@ -69,14 +93,16 @@ const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
             </button>
           </div>
 
-          <div className="mt-2 flex flex-col gap-4">
-            
+          <form
+            onSubmit={formik.handleSubmit}
+            className="mt-2 flex flex-col gap-4"
+          >
             <div className="flex flex-col">
               <label
                 htmlFor="amount"
                 className="text-xs leading-loose mb-1 text-gray-700 font-bold font-display"
               >
-               Loan Amount
+                Loan Amount
               </label>
               <input
                 type="number"
@@ -133,23 +159,33 @@ const RequestLoan = ({ setIsOpen, isOpen }: Props) => {
                 <p className=" text-xs text-red-500">{formik.errors.purpose}</p>
               )}
             </div>
-            <div className="flex gap-2 justify-end">
-              <button
-                type="submit"
-                className="disabled:opacity-75 w-fit disabled:cursor-not-allowed text-center whitespace-no-wrap rounded-xl  flex flex-col md:flex-row items-center justify-center  py-3 px-4 font-display text-sm md:text-sm  border text-gray-600 font-bold  hover:bg-primary-500 mt-8"
-                // disabled={isLoading}
-              >
-                Close
-              </button>{" "}
-              <button
-                type="submit"
-                className="disabled:opacity-75 w-fit disabled:cursor-not-allowed text-center whitespace-no-wrap rounded-xl  flex flex-col md:flex-row items-center justify-center py-3 px-4 font-display text-sm md:text-sm  bg-[#2D3192] font-bold text-white hover:bg-primary-500 mt-8"
-                // disabled={isLoading}
-              >
-                Make Request
-              </button>
-            </div>
-          </div>
+            {isLoading ? (
+              <div className=" flex items-center w-full justify-center">
+                <ClipLoader color="#2D3192" />
+              </div>
+            ) : (
+              <div className="flex gap-2 justify-end">
+                <button
+                  type="button"
+                  className="disabled:opacity-75 w-fit disabled:cursor-not-allowed text-center whitespace-no-wrap rounded-xl  flex flex-col md:flex-row items-center justify-center  py-3 px-4 font-display text-sm md:text-sm  border text-gray-600 font-bold  hover:bg-primary-500 mt-8"
+                  // disabled={isLoading}
+                  onClick={() => {
+                    setIsOpen(false);
+                    formik.resetForm();
+                  }}
+                >
+                  Close
+                </button>{" "}
+                <button
+                  type="submit"
+                  className="disabled:opacity-75 w-fit disabled:cursor-not-allowed text-center whitespace-no-wrap rounded-xl  flex flex-col md:flex-row items-center justify-center py-3 px-4 font-display text-sm md:text-sm  bg-[#2D3192] font-bold text-white hover:bg-primary-500 mt-8"
+                  // disabled={isLoading}
+                >
+                  Make Request
+                </button>
+              </div>
+            )}
+          </form>
         </div>
       </div>
     </div>

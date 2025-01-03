@@ -1,21 +1,26 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import { BiSearch } from "react-icons/bi";
-// import RequestTransaction from "../../components/RequestTransaction";
 import { Link } from "react-router-dom";
-import { transactionHistory, TransactionInterface } from "../../Utils/data";
+import {
+  formatDateToDDMMYYYY,
+  transactionHistory,
+  TransactionInterface,
+} from "../../Utils/data";
 import { FaArrowUp } from "react-icons/fa";
+import { useGetTransactionQuery } from "../../services/transactionAPI";
+import { ClipLoader } from "react-spinners";
 
 const TransactionHistory = () => {
+  const { data, error, isLoading } = useGetTransactionQuery();
   const [query, setQuery] = useState<string>("");
   const [transactions, setTransactions] =
     useState<TransactionInterface[]>(transactionHistory);
-
   const [sortConfig, setSortConfig] = useState<{
     key: keyof TransactionInterface;
     direction: "asc" | "desc";
   } | null>(null);
 
+  // Handle sorting of transactions
   const handleSort = (key: keyof TransactionInterface) => {
     let direction: "asc" | "desc" = "asc";
     if (
@@ -26,7 +31,7 @@ const TransactionHistory = () => {
       direction = "desc";
     }
 
-    const sortedTransaction = [...transactions].sort((a, b) => {
+    const sortedTransactions = [...transactions].sort((a, b) => {
       if (a[key] === undefined || b[key] === undefined) return 0;
 
       if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
@@ -35,10 +40,10 @@ const TransactionHistory = () => {
     });
 
     setSortConfig({ key, direction });
-    setTransactions(sortedTransaction);
+    setTransactions(sortedTransactions);
   };
 
-  // Apply filtering on sorted transactions
+  // Apply filtering based on query
   const filteredTransactions = transactions.filter((transaction) => {
     const lowerQuery = query.toLowerCase();
     return (
@@ -50,6 +55,20 @@ const TransactionHistory = () => {
       transaction.status.toLowerCase().includes(lowerQuery)
     );
   });
+
+  // Update transactions when data is available
+  useEffect(() => {
+    if (data) {
+      setTransactions(data);
+    }
+  }, [data]);
+  if (isLoading) {
+    return (
+      <div className=" flex items-center w-full justify-center">
+        <ClipLoader color="#2D3192" />
+      </div>
+    );
+  }
   return (
     <div>
       {/* <RequestTransaction
@@ -81,14 +100,14 @@ const TransactionHistory = () => {
 
                 <th className="text-nowrap flex  items-center gap-2 p-2 py-4 text-left text-sm font-medium cursor-pointer rounded-t-lg text-gray-600">
                   <div
-                    onClick={() => handleSort("amount")}
+                    onClick={() => handleSort("balance")}
                     className=" flex  items-center gap-2"
                   >
                     {" "}
                     Amount
                     <div
                       className={` transition-transform duration-300   ${
-                        sortConfig?.key === "amount" &&
+                        sortConfig?.key === "balance" &&
                         sortConfig.direction === "asc"
                           ? "transform rotate-180"
                           : ""
@@ -136,15 +155,11 @@ const TransactionHistory = () => {
                     </div>
                   </div>
                 </th>
-
-                <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer text-gray-600 rounded-t-lg">
-                  Action
-                </th>
               </tr>
             </thead>
             <tbody>
-              {filteredTransactions.length > 0 ? (
-                filteredTransactions.map((transaction) => (
+              {filteredTransactions!.length > 0 ? (
+                filteredTransactions?.map((transaction) => (
                   <tr
                     key={transaction.id}
                     className="border-b cursor-pointer border-b-grey-50 hover:bg-gray-50"
@@ -156,7 +171,7 @@ const TransactionHistory = () => {
                       ₦{transaction.balance.toLocaleString()}.00
                     </td>
                     <td className="text-sm font-medium p-2 py-4  text-nowrap text-gray-700">
-                      {transaction.transactionDate}
+                      {formatDateToDDMMYYYY(transaction.transactionDate ?? "")}
                     </td>
                     <td
                       className={`text-sm font-medium p-2 py-4  text-nowrap text-gray-700 ${
@@ -166,14 +181,6 @@ const TransactionHistory = () => {
                       }`}
                     >
                       {transaction.transactionType}
-                    </td>
-                    <td className="text-sm underline font-medium p-2 py-4 text-nowrap text-gray-700">
-                      <Link
-                        to={`/dashboard/transactions/${transaction.transactionId}`}
-                      >
-                        {" "}
-                        View Details
-                      </Link>
                     </td>
                   </tr>
                 ))

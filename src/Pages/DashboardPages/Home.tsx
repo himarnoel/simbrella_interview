@@ -10,6 +10,8 @@ import {
 } from "recharts";
 
 import { useGetTransactionQuery } from "../../services/transactionAPI";
+import { formatDateToDDMMYYYY } from "../../Utils/data";
+import { ClipLoader } from "react-spinners";
 // import { useGetLoansQuery } from "../../services/api";
 
 const Home = () => {
@@ -20,19 +22,23 @@ const Home = () => {
   // Sample data
   const user = {
     name: "Emmanuel Tioluwanimi Olaniyi",
-    accountBalance: 3250.45,
-    recentTransactions: [
-      { id: 1, date: "2025-01-02", amount: 150.0, type: "Credit" },
-      { id: 2, date: "2025-01-01", amount: 200.0, type: "Debit" },
-      { id: 3, date: "2024-12-30", amount: 100.0, type: "Credit" },
-    ],
+    accountBalance: 33250.45,
+    creditBalance: 13250.45,
+    repaymentBalance: 23250.45,
   };
   const chartData = data?.map((transaction) => ({
-    date: transaction.transactionDate,
+    date: formatDateToDDMMYYYY(transaction.transactionDate || ""),
     amount: transaction.amount,
     type: transaction.transactionType,
   }));
 
+  if (isLoading) {
+    return (
+      <div className=" flex items-center w-full justify-center">
+        <ClipLoader color="#2D3192" />
+      </div>
+    );
+  }
   return (
     <div className=" p-6 rounded-lg  w-full  mx-auto">
       <div className="grid lg:grid-cols-3 gap-4">
@@ -40,8 +46,7 @@ const Home = () => {
           <div className="flex flex-col gap-4">
             <span className="text text-sm">Account Balance</span>
             <span className="text-[#344054] text-xl font-semibold">
-              {" "}
-              ₦{user.accountBalance.toFixed(2)}
+              ₦{user.accountBalance.toLocaleString()}
             </span>
             <div className="flex items-center gap-[6px]"></div>
           </div>
@@ -55,8 +60,7 @@ const Home = () => {
           <div className="flex flex-col gap-4">
             <span className="text text-sm">Credit Balance</span>
             <span className="text-[#344054] text-xl font-semibold">
-              {" "}
-              ₦{user.accountBalance.toFixed(2)}
+              ₦{user.repaymentBalance.toLocaleString()}
             </span>
             <div className="flex items-center gap-[6px]"></div>
           </div>
@@ -70,8 +74,7 @@ const Home = () => {
           <div className="flex flex-col gap-4">
             <span className="text text-sm">Repayment Balance</span>
             <span className="text-[#344054] text-xl font-semibold">
-              {" "}
-              ₦{user.accountBalance.toFixed(2)}
+              ₦{user.creditBalance.toLocaleString()}
             </span>
             <div className="flex items-center gap-[6px]"></div>
           </div>
@@ -82,65 +85,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {/* Recent Transactions */}
-      <div className=" mt-10  flex flex-col ">
-        <div className="w-full">
-          <div className="w-full p-5 rounded-lg  bg-white">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">
-              Recent Transactions
-            </h3>{" "}
-            <table className="min-w-full bg-white rounded-lg ">
-              <thead>
-                <tr className="bg-[#F9FAFB]">
-                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer rounded-t-lg   text-gray-600">
-                    Transaction ID
-                  </th>
-                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer  text-gray-600">
-                    Date
-                  </th>
-                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer  text-gray-600">
-                    Amount
-                  </th>
-                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer  text-gray-600 rounded-t-lg">
-                    Type
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((transaction) => (
-                  <tr
-                    key={transaction.id}
-                    className="border-b cursor-pointer border-b-grey-50 hover:bg-gray-50"
-                  >
-                    <td className="text-sm font-medium p-2 py-4  text-gray-700">
-                      {transaction.transactionId}
-                    </td>
-                    <td className="text-sm font-medium p-2 py-4  text-gray-700">
-                      {transaction.transactionDate}
-                    </td>
-                    <td
-                      className={`text-sm font-medium p-2 py-3 text-gray-700  
-                      `}
-                    >
-                      ₦{transaction.amount.toLocaleString()}.00
-                    </td>
-                    <td
-                      className={`text-sm font-medium p-2 py-3  ${
-                        transaction.transactionType === "Credit"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {transaction.transactionType}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="bg-white p-5 rounded-lg mt-10">
+      <div className="bg-white p-5 rounded-lg mt-10">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Recent Transactions
           </h3>
@@ -195,7 +140,10 @@ const Home = () => {
             </AreaChart>
           </ResponsiveContainer>
         </div>
-      </div>
+      {/* Recent Transactions */}
+      
+        
+     
     </div>
   );
 };
