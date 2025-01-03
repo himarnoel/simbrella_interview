@@ -1,50 +1,44 @@
-# React + TypeScript + Vite
+# Fintech Dashboard - React Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a fintech dashboard application that displays user information, manages loans, and tracks transaction history. It is built with React, TypeScript, and utilizes a mock REST API to simulate data fetching.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Project Features
+### 1. User Overview Section:
+- Displays user information (name, account balance, and recent transactions).
+- Data is dynamically fetched from a mock API.
 
-## Expanding the ESLint configuration
+### 2. Loan Management Section:
+- Users can view loan history and active loans.
+- A form allows new loan requests with validation (amount, tenure, and purpose).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 3. Transaction History Section:
+- Table showing recent transactions.
+- Users can sort by date, amount, or transaction type.
+- Filtering by transaction type (credit, debit).
 
-- Configure the top-level `parserOptions` property like this:
+### 4. Responsive Design:
+- Fully responsive across desktop, tablet, and mobile devices.
+  
+---
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🛠️ Setup Instructions
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Prerequisites
+- **Node.js** (v16 or later)
+- **npm** or **yarn**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+---
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Installation
+
+  **Clone the repository**:
+   ```bash
+   git clone https://github.com/himarnoel/simbrella_interview.git
+   cd simbrella_interview
+   npm install
+   npm run dev
+
+   
+
