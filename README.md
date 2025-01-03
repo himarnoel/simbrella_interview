@@ -33,7 +33,12 @@ This project is a fintech dashboard application that displays user information, 
 
 ### Installation
 
-1. **Clone the repository**:
+  **Clone the repository**:
    ```bash
    git clone https://github.com/himarnoel/simbrella_interview.git
-   cd my-project
+   cd simbrella_interview
+   npm install
+   npm run dev
+
+   
+
