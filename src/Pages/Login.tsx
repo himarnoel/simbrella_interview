@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { LuEye, LuEyeOff } from "react-icons/lu";
+import Logo from "../components/Logo";
+import { useNavigate } from "react-router-dom";
 
 // type Props = {};
 
@@ -9,9 +11,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   // const [login, { data, error, isLoading }] = useLoginMutation();
   // const router = useRouter();
-
-  const handleSubmit = async () => {
-    //   e.preventDefault();
+  const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    navigate("/dashboard");
     //   try {
     //     await login({ email, password }).unwrap();
     //     router.push("/admin/dashboard");
@@ -24,13 +27,13 @@ const Login = () => {
   return (
     <div className=" flex flex-col h-screen items-start  ">
       <div className="flex flex-1 w-full  gap-4 mb-4 flex-col items-center justify-center">
-      
+        <Logo />
         <div className="flex flex-col mt-10 gap-4 rounded-lg border border-[#3438a1] bg-[#fff]   sh p-8 pb-10 sm:p-10 sm:pb-12 w-11/12 max-w-md">
           <p className="text-xl md:text-3xl text-center text-[#2D3192] font-bold font-display">
             Login
           </p>
           <p className="text-sm font-body text-gray-700 text-center">
-            Securely login to access the admin dashboard.
+            Securely login to manage and track your loans.
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
             <div className="flex flex-col">
@@ -67,7 +70,11 @@ const Login = () => {
                 className="bottom-4 right-2 absolute text-xl"
                 onClick={() => setIsVisible((prev) => !prev)}
               >
-                {isVisible ? <LuEye  className="text-[#667085]" /> : <LuEyeOff  className="text-[#667085]" />}
+                {isVisible ? (
+                  <LuEye className="text-[#667085]" />
+                ) : (
+                  <LuEyeOff className="text-[#667085]" />
+                )}
               </button>
             </div>
             <button

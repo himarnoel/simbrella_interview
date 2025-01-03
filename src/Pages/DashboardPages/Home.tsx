@@ -1,4 +1,3 @@
-
 import { FaCreditCard, FaDollarSign, FaWallet } from "react-icons/fa";
 import {
   AreaChart,
@@ -8,7 +7,9 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
+  CartesianGrid,
 } from "recharts";
+import { transactionHistory } from "../../Utils/data";
 
 const Home = () => {
   // Sample data
@@ -29,7 +30,7 @@ const Home = () => {
 
   return (
     <div className=" p-6 rounded-lg  w-full  mx-auto">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid lg:grid-cols-3 gap-4">
         <div className="bg-white  flex justify-between border-[#E4E7EC] border  border-solid  p-6 rounded-lg  w-full  mx-auto">
           <div className="flex flex-col gap-4">
             <span className="text text-sm">Account Balance</span>
@@ -37,12 +38,7 @@ const Home = () => {
               {" "}
               ₦{user.accountBalance.toFixed(2)}
             </span>
-            <div className="flex items-center gap-[6px]">
-              <div className="px-1 rounded-[10px] text-xs  bg-gray-100 text-[#344054]">
-                5%
-              </div>
-              <span className="text-grey-400 text-xs">No data</span>
-            </div>
+            <div className="flex items-center gap-[6px]"></div>
           </div>
           <div className="flex items-center gap-4">
             <div className="rounded-full p-[10px] border border-solid border-grey-[#E4E7EC] flex items-center justify-center flex-shrink-0">
@@ -57,12 +53,7 @@ const Home = () => {
               {" "}
               ₦{user.accountBalance.toFixed(2)}
             </span>
-            <div className="flex items-center gap-[6px]">
-              <div className="px-1 rounded-[10px] text-xs  bg-gray-100 text-[#344054]">
-                -%
-              </div>
-              <span className="text-grey-400 text-xs">No data</span>
-            </div>
+            <div className="flex items-center gap-[6px]"></div>
           </div>
           <div className="flex items-center gap-4">
             <div className="rounded-full p-[10px] border border-solid border-grey-[#E4E7EC] flex items-center justify-center flex-shrink-0">
@@ -77,12 +68,7 @@ const Home = () => {
               {" "}
               ₦{user.accountBalance.toFixed(2)}
             </span>
-            <div className="flex items-center gap-[6px]">
-              <div className="px-1 rounded-[10px] text-xs  bg-gray-100 text-[#344054]">
-                -%
-              </div>
-              <span className="text-grey-400 text-xs">No data</span>
-            </div>
+            <div className="flex items-center gap-[6px]"></div>
           </div>
           <div className="flex items-center gap-4">
             <div className="rounded-full p-[10px] border border-solid border-grey-[#E4E7EC] flex items-center justify-center flex-shrink-0">
@@ -95,47 +81,53 @@ const Home = () => {
       {/* Recent Transactions */}
       <div className=" mt-10  flex flex-col ">
         <div className="w-full">
-          <div className="w-full p-5 rounded-lg shadow-md  bg-white">
+          <div className="w-full p-5 rounded-lg  bg-white">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
               Recent Transactions
             </h3>{" "}
             <table className="min-w-full bg-white rounded-lg ">
               <thead>
                 <tr className="bg-[#F9FAFB]">
-                  <th className="text-nowrap p-2 text-left text-sm font-medium  cursor-pointer  text-gray-600">
-                    S/N
+                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer rounded-t-lg   text-gray-600">
+                    Transaction ID
                   </th>
-                  <th className="text-nowrap p-2 text-left text-sm font-medium  cursor-pointer  text-gray-600">
+                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer  text-gray-600">
                     Date
                   </th>
-                  <th className="text-nowrap p-2 text-left text-sm font-medium  cursor-pointer  text-gray-600">
+                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer  text-gray-600">
                     Amount
                   </th>
-                  <th className="text-nowrap p-2 text-left text-sm font-medium  cursor-pointer  text-gray-600">
+                  <th className="text-nowrap p-2 py-4 text-left text-sm font-medium  cursor-pointer  text-gray-600 rounded-t-lg">
                     Type
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {user.recentTransactions.map((transaction, index) => (
-                  <tr key={transaction.id} className="border-t">
-                    <td className="text-sm font-medium p-2  text-gray-700">
-                      {index + 1}
+                {transactionHistory.map((transaction, index) => (
+                  <tr
+                    key={transaction.id}
+                    className="border-b cursor-pointer border-b-grey-50 hover:bg-gray-50"
+                  >
+                    <td className="text-sm font-medium p-2 py-4  text-gray-700">
+                      {transaction.transactionId}
                     </td>
-                    <td className="text-sm font-medium p-2  text-gray-700">
-                      {transaction.date}
+                    <td className="text-sm font-medium p-2 py-4  text-gray-700">
+                      {transaction.transactionDate}
                     </td>
                     <td
-                      className={`text-sm font-medium p-2  ${
-                        transaction.type === "Credit"
+                      className={`text-sm font-medium p-2 py-3 text-gray-700  
+                      `}
+                    >
+                      ₦{transaction.amount.toLocaleString()}.00
+                    </td>
+                    <td
+                      className={`text-sm font-medium p-2 py-3  ${
+                        transaction.transactionType === "Credit"
                           ? "text-green-600"
                           : "text-red-600"
                       }`}
                     >
-                      ₦{transaction.amount.toFixed(2)}
-                    </td>
-                    <td className="text-sm font-medium p-2  text-gray-700">
-                      {transaction.type}
+                      {transaction.transactionType}
                     </td>
                   </tr>
                 ))}
@@ -143,7 +135,7 @@ const Home = () => {
             </table>
           </div>
         </div>
-        <div className="bg-white p-5 rounded-lg shadow-md mt-10">
+        <div className="bg-white p-5 rounded-lg mt-10">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Recent Transactions
           </h3>
@@ -162,10 +154,25 @@ const Home = () => {
                   <stop offset="95%" stopColor="#EF4444" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <XAxis dataKey="date" stroke="#8884d8" />
-              <YAxis />
+              <CartesianGrid
+            vertical={false}
+            stroke="#F2F4F7"
+            strokeDasharray="0"
+          />
+              <XAxis
+                dataKey="date"
+                tick={{ fontSize: 12, fill: "#667085" }}
+                axisLine={{ stroke: "#F2F4F7" }}
+                tickLine={false}
+              />
+              <YAxis
+                axisLine={false}
+                tick={{ fontSize: 12, fill: "#667085" }}
+                tickMargin={10}
+                tickLine={false}
+              />
               <Tooltip formatter={(value) => [`₦${value}`, "Amount"]} />
-              <Legend />
+              {/* <Legend /> */}
               <Area
                 type="monotone"
                 dataKey="amount"

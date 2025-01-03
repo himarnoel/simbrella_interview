@@ -26,7 +26,7 @@ const Header = ({ setIsOpen }: Props) => {
               <p className="font-medium">Gina Pwa</p>
             </div>
             <img
-              src={"dp.jpg"}
+              src={"/dp.jpg"}
               alt=""
               className="rounded-full h-14 w-14 object-cover cursor-pointer"
             />

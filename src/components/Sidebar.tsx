@@ -38,7 +38,7 @@ const Sidebar = ({ isOpen, setIsOpen }: Props) => {
                   label="Dashboard"
                 />
                 <IconLink
-                  href="/dashboard/loan"
+                  href="/dashboard/loans"
                   IconComponent={FaMoneyCheckAlt} // Another example with FaHome
                   label="Loan Management"
                 />
