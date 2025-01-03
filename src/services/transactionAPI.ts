@@ -4,7 +4,7 @@ import { TransactionInterface } from "../Utils/data";
 // console.log(apiUrl); //
 
 const apiUrl = import.meta.env.VITE_API_URL;
-console.log("api", apiUrl);
+
 
 export const transactionApi = createApi({
   reducerPath: "transactionapi",

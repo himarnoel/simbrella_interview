@@ -6,20 +6,17 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-
   CartesianGrid,
 } from "recharts";
-import { transactionHistory } from "../../Utils/data";
+
 import { useGetTransactionQuery } from "../../services/transactionAPI";
 // import { useGetLoansQuery } from "../../services/api";
-
 
 const Home = () => {
   const { data, error, isLoading } = useGetTransactionQuery();
   console.log(data, error, isLoading);
   console.log("data", data);
-  
-  
+
   // Sample data
   const user = {
     name: "Emmanuel Tioluwanimi Olaniyi",
@@ -30,7 +27,7 @@ const Home = () => {
       { id: 3, date: "2024-12-30", amount: 100.0, type: "Credit" },
     ],
   };
-  const chartData = transactionHistory.map((transaction) => ({
+  const chartData = data?.map((transaction) => ({
     date: transaction.transactionDate,
     amount: transaction.amount,
     type: transaction.transactionType,
@@ -111,7 +108,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {transactionHistory.map((transaction) => (
+                {data?.map((transaction) => (
                   <tr
                     key={transaction.id}
                     className="border-b cursor-pointer border-b-grey-50 hover:bg-gray-50"
@@ -163,10 +160,10 @@ const Home = () => {
                 </linearGradient>
               </defs>
               <CartesianGrid
-            vertical={false}
-            stroke="#F2F4F7"
-            strokeDasharray="0"
-          />
+                vertical={false}
+                stroke="#F2F4F7"
+                strokeDasharray="0"
+              />
               <XAxis
                 dataKey="date"
                 tick={{ fontSize: 12, fill: "#667085" }}
