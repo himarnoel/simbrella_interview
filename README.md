@@ -1,15 +1,26 @@
-# My React Project
+# Fintech Dashboard - React Project
 
-This is a simple React project that demonstrates component testing using React Testing Library and Jest. 
+This project is a fintech dashboard application that displays user information, manages loans, and tracks transaction history. It is built with React, TypeScript, and utilizes a mock REST API to simulate data fetching.
 
 ---
 
-## 🚀 Features
-- React component-based architecture.
-- Testing with Jest and React Testing Library.
-- TypeScript for type safety.
-- Responsive UI with Tailwind CSS.
+## 🚀 Project Features
+### 1. User Overview Section:
+- Displays user information (name, account balance, and recent transactions).
+- Data is dynamically fetched from a mock API.
 
+### 2. Loan Management Section:
+- Users can view loan history and active loans.
+- A form allows new loan requests with validation (amount, tenure, and purpose).
+
+### 3. Transaction History Section:
+- Table showing recent transactions.
+- Users can sort by date, amount, or transaction type.
+- Filtering by transaction type (credit, debit).
+
+### 4. Responsive Design:
+- Fully responsive across desktop, tablet, and mobile devices.
+  
 ---
 
 ## 🛠️ Setup Instructions
