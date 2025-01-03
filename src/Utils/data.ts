@@ -1,4 +1,4 @@
-interface Transaction {
+export interface TransactionInterface {
   id: number;
   transactionId: string;
   amount: number;
@@ -8,7 +8,7 @@ interface Transaction {
   balance: number;
   transactionType: string;
 }
-export const transactionHistory: Transaction[] = [
+export const transactionHistory: TransactionInterface[] = [
   {
     id: 1,
     transactionId: "002572",

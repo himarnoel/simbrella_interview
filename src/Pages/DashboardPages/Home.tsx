@@ -10,8 +10,16 @@ import {
   CartesianGrid,
 } from "recharts";
 import { transactionHistory } from "../../Utils/data";
+import { useGetTransactionQuery } from "../../services/transactionAPI";
+// import { useGetLoansQuery } from "../../services/api";
+
 
 const Home = () => {
+  const { data, error, isLoading } = useGetTransactionQuery();
+  console.log(data, error, isLoading);
+  console.log("data", data);
+  
+  
   // Sample data
   const user = {
     name: "Emmanuel Tioluwanimi Olaniyi",
@@ -22,10 +30,10 @@ const Home = () => {
       { id: 3, date: "2024-12-30", amount: 100.0, type: "Credit" },
     ],
   };
-  const chartData = user.recentTransactions.map((transaction) => ({
-    date: transaction.date,
+  const chartData = transactionHistory.map((transaction) => ({
+    date: transaction.transactionDate,
     amount: transaction.amount,
-    type: transaction.type,
+    type: transaction.transactionType,
   }));
 
   return (

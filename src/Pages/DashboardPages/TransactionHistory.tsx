@@ -1,18 +1,45 @@
-import  { useState } from "react";
+import { useState } from "react";
 
-import {  BiSearch } from "react-icons/bi";
+import { BiSearch } from "react-icons/bi";
 // import RequestTransaction from "../../components/RequestTransaction";
 import { Link } from "react-router-dom";
-import { transactionHistory } from "../../Utils/data";
-
-
+import { transactionHistory, TransactionInterface } from "../../Utils/data";
+import { FaArrowUp } from "react-icons/fa";
 
 const TransactionHistory = () => {
   const [query, setQuery] = useState<string>("");
-  
-  
+  const [transactions, setTransactions] =
+    useState<TransactionInterface[]>(transactionHistory);
 
-  const filteredTransactions = transactionHistory.filter((transaction) => {
+  const [sortConfig, setSortConfig] = useState<{
+    key: keyof TransactionInterface;
+    direction: "asc" | "desc";
+  } | null>(null);
+
+  const handleSort = (key: keyof TransactionInterface) => {
+    let direction: "asc" | "desc" = "asc";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "asc"
+    ) {
+      direction = "desc";
+    }
+
+    const sortedTransaction = [...transactions].sort((a, b) => {
+      if (a[key] === undefined || b[key] === undefined) return 0;
+
+      if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
+      if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+
+    setSortConfig({ key, direction });
+    setTransactions(sortedTransaction);
+  };
+
+  // Apply filtering on sorted transactions
+  const filteredTransactions = transactions.filter((transaction) => {
     const lowerQuery = query.toLowerCase();
     return (
       transaction.amount.toString().includes(lowerQuery) ||
@@ -51,23 +78,65 @@ const TransactionHistory = () => {
                 <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer rounded-t-lg text-gray-600">
                   Transaction ID
                 </th>
-                <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer rounded-t-lg text-gray-600">
-                  Amount
-                </th>
-                <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer text-gray-600">
-                  Tenure
-                </th>
-                <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer text-gray-600">
-                  Type
+
+                <th className="text-nowrap flex  items-center gap-2 p-2 py-4 text-left text-sm font-medium cursor-pointer rounded-t-lg text-gray-600">
+                  <div
+                    onClick={() => handleSort("amount")}
+                    className=" flex  items-center gap-2"
+                  >
+                    {" "}
+                    Amount
+                    <div
+                      className={` transition-transform duration-300   ${
+                        sortConfig?.key === "amount" &&
+                        sortConfig.direction === "asc"
+                          ? "transform rotate-180"
+                          : ""
+                      }`}
+                    >
+                      <FaArrowUp color={"#5D6679"} />
+                    </div>
+                  </div>
                 </th>
 
                 <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer text-gray-600">
-                  Transaction Date
+                  <div
+                    onClick={() => handleSort("transactionDate")}
+                    className=" flex  items-center gap-2"
+                  >
+                    Date
+                    <div
+                      className={` transition-transform duration-300   ${
+                        sortConfig?.key === "transactionDate" &&
+                        sortConfig.direction === "asc"
+                          ? "transform rotate-180"
+                          : ""
+                      }`}
+                    >
+                      <FaArrowUp color={"#5D6679"} />
+                    </div>
+                  </div>
                 </th>
-                
+
                 <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer text-gray-600">
-                  Status
+                  <div
+                    onClick={() => handleSort("transactionType")}
+                    className="flex   items-center gap-2 "
+                  >
+                    Type
+                    <div
+                      className={` transition-transform duration-300   ${
+                        sortConfig?.key === "transactionType" &&
+                        sortConfig.direction === "asc"
+                          ? "transform rotate-180"
+                          : ""
+                      }`}
+                    >
+                      <FaArrowUp color={"#5D6679"} />
+                    </div>
+                  </div>
                 </th>
+
                 <th className="text-nowrap p-2 py-4 text-left text-sm font-medium cursor-pointer text-gray-600 rounded-t-lg">
                   Action
                 </th>
@@ -87,7 +156,7 @@ const TransactionHistory = () => {
                       ₦{transaction.balance.toLocaleString()}.00
                     </td>
                     <td className="text-sm font-medium p-2 py-4  text-nowrap text-gray-700">
-                      {transaction.tenure}
+                      {transaction.transactionDate}
                     </td>
                     <td
                       className={`text-sm font-medium p-2 py-4  text-nowrap text-gray-700 ${
@@ -97,32 +166,6 @@ const TransactionHistory = () => {
                       }`}
                     >
                       {transaction.transactionType}
-                    </td>
-                    <td className="text-sm font-medium p-2 py-4  text-nowrap text-gray-700">
-                      {transaction.transactionDate}
-                    </td>
-                
-                    <td className="text-sm font-medium p-2 py-4  text-nowrap text-gray-700">
-                      <span
-                        className={`p-1 w-fit rounded-full flex items-center gap-2 px-4 ${
-                          transaction.status == "Active"
-                            ? "bg-green-50 text-green-700"
-                            : transaction.status == "Paid"
-                            ? "bg-gray-50 text-gray-700"
-                            : "bg-red-50 text-red-700"
-                        }`}
-                      >
-                        <div
-                          className={`h-2 w-2 rounded-full ${
-                            transaction.status == "Active"
-                              ? "bg-green-500"
-                              : transaction.status == "Paid"
-                              ? "bg-gray-500"
-                              : "bg-red-500"
-                          }`}
-                        ></div>
-                        {transaction.status}
-                      </span>
                     </td>
                     <td className="text-sm underline font-medium p-2 py-4 text-nowrap text-gray-700">
                       <Link
